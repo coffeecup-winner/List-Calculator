@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IronPython 2.7.1\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IronPython 2.7.1\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\NUnit 2.6\bin\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,9 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Kernel\IronPythonIntegration.cs" />
+    <Compile Include="Tests\IronPythonIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
