@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace CalculatorKernel.Kernel {
-
     public interface IKernel {
         void StartCalculating(string expression);
         event EventHandler<CalculationCompletedEventArgs> CalculationCompleted;
-    }
-
-    public interface ICalculationResult {
-        string PlainText { get; }
     }
 
     public class Kernel : IKernel {
@@ -22,34 +15,21 @@ namespace CalculatorKernel.Kernel {
 
         public void StartCalculating(string expression) {
             new Task(() => {
-                var result = this.pythonWrapper.Execute(expression);
-                CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result)));
+                try {
+                    var result = this.pythonWrapper.Execute(expression);
+                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result)));
+                } catch(Exception e) {
+                    CalculationException exception = new CalculationException(e);
+                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(exception)));
+                }
             }).Start();
         }
     }
 
-    public static class CalculationResult {
-        public static CalculationResult<T> Create<T>(T value) {
-            return new CalculationResult<T>(value);
+    public class CalculationException : Exception {
+        public CalculationException(Exception innerException) : base(string.Empty, innerException) { }
+        public override string ToString() {
+            return InnerException.Message;
         }
-    }
-    public class CalculationResult<T> : ICalculationResult {
-        readonly T value;
-        string plainText = null;
-
-        public CalculationResult(T value) {
-            this.value = value;
-        }
-        public T Value { get { return value; } }
-        public string PlainText { get { return plainText ?? (plainText = Value.ToString()); } }
-    }
-
-    public class CalculationCompletedEventArgs : System.EventArgs {
-        readonly ICalculationResult result;
-
-        public CalculationCompletedEventArgs(ICalculationResult result) {
-            this.result = result;
-        }
-        public ICalculationResult Result { get { return result; } }
     }
 }

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kernel\CalculationResult.cs" />
     <Compile Include="Kernel\IronPythonIntegration.cs" />
     <Compile Include="Kernel\Kernel.cs" />
     <Compile Include="Tests\IronPythonIntegrationTests.cs" />
