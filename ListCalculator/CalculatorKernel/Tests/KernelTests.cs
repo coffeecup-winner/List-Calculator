@@ -10,7 +10,7 @@ namespace CalculatorKernel.Tests {
     public class KernelTests {
         Kernel.Kernel kernel;
 
-        Kernel.Kernel Kernel { get { return kernel; } }
+        protected Kernel.Kernel Kernel { get { return kernel; } }
         [TestFixtureSetUp]
         public void FixtureSetUp() {
             kernel = new Kernel.Kernel();
@@ -58,28 +58,20 @@ factorial(5)",
         [Test]
         public void ExpressionWithoutResultTest() {
             TestCalculation("a = 1",
-            expectedResult: NullResult.Instance,
-            expectedString: NullResult.Instance.ToString());
+            expectedResult: (CalculationResultNull)null,
+            expectedString: CalculationResultNull.Instance.PlainText,
+            skipValueCheck: true);
         }
+
         void TestCalculation<T>(string expression, T expectedResult, string expectedString, bool skipValueCheck = false) {
-            ManualResetEvent evt = new ManualResetEvent(false);
-            T actualResult = default(T);
-            string actualString = null;
-            EventHandler<CalculationCompletedEventArgs> action = (s, e) => {
-                ICalculationResult<T> result = e.Result as ICalculationResult<T>;
-                if(result != null) {
-                    actualResult = result.Value;
-                    actualString = result.PlainText;
-                }
-                evt.Set();
-            };
-            kernel.CalculationCompleted += action;
-            kernel.StartCalculating(expression);
-            evt.WaitOne();
-            Assert.That(actualString, Is.Not.Empty, "Returned value is not of type " + typeof(T));
-            if(!skipValueCheck)
-                Assert.That(actualResult, Is.EqualTo(expectedResult));
-            Assert.That(actualString, Is.EqualTo(expectedString));
+            ICalculationResult result = kernel.Calculate(expression);
+            Assert.That(result, Is.Not.Null);
+            if(!skipValueCheck) {
+                ICalculationResult<T> castedResult = result as ICalculationResult<T>;
+                Assert.That(castedResult, Is.Not.Null, "Returned value is not of type " + typeof(T));
+                Assert.That(castedResult.Value, Is.EqualTo(expectedResult));
+            }
+            Assert.That(result.PlainText, Is.EqualTo(expectedString));
         }
     }
 }

@@ -10,12 +10,6 @@ namespace CalculatorKernel.Kernel {
         T Value { get; }
     }
 
-    public static class CalculationResult {
-        public static CalculationResult<T> Create<T>(T value) {
-            return new CalculationResult<T>(value);
-        }
-    }
-
     public class CalculationResult<T> : ICalculationResult<T> {
         readonly T value;
         string plainText = null;
@@ -24,16 +18,12 @@ namespace CalculatorKernel.Kernel {
             this.value = value;
         }
         public T Value { get { return value; } }
-        public string PlainText { get { return plainText ?? (plainText = Value.ToString()); } }
-    }
-
-    public class NullResult {
-        static readonly NullResult instance = new NullResult();
-
-        private NullResult() { }
-        public static NullResult Instance { get { return instance; } }
+        public string PlainText { get { return plainText ?? (plainText = GetPlainText()); } }
+        protected virtual string GetPlainText() {
+            return Value.ToString();
+        }
         public override string ToString() {
-            return "Expression was evaluated without the output value.";
+            return PlainText;
         }
     }
 

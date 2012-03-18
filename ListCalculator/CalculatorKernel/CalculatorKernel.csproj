@@ -53,11 +53,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Kernel\CalculationResult.cs" />
+    <Compile Include="Kernel\CustomCalculationResults.cs" />
     <Compile Include="Kernel\IronPythonIntegration.cs" />
     <Compile Include="Kernel\Kernel.cs" />
+    <Compile Include="Tests\CalculationResultTests.cs" />
     <Compile Include="Tests\IronPythonIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\KernelTests.cs" />
+    <Compile Include="Tests\TestHelpers.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
