@@ -55,6 +55,12 @@ factorial(5)",
             IllegalExpressionTest();
             FactorialTest();
         }
+        [Test]
+        public void ExpressionWithoutResultTest() {
+            TestCalculation("a = 1",
+            expectedResult: NullResult.Instance,
+            expectedString: NullResult.Instance.ToString());
+        }
         void TestCalculation<T>(string expression, T expectedResult, string expectedString, bool skipValueCheck = false) {
             ManualResetEvent evt = new ManualResetEvent(false);
             T actualResult = default(T);

@@ -27,6 +27,16 @@ namespace CalculatorKernel.Kernel {
         public string PlainText { get { return plainText ?? (plainText = Value.ToString()); } }
     }
 
+    public class NullResult {
+        static readonly NullResult instance = new NullResult();
+
+        private NullResult() { }
+        public static NullResult Instance { get { return instance; } }
+        public override string ToString() {
+            return "Expression was evaluated without the output value.";
+        }
+    }
+
     public class CalculationCompletedEventArgs : EventArgs {
         readonly ICalculationResult result;
 

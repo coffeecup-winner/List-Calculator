@@ -17,6 +17,8 @@ namespace CalculatorKernel.Kernel {
             new Task(() => {
                 try {
                     var result = this.pythonWrapper.Execute(expression);
+                    if(result == null)
+                        result = NullResult.Instance;
                     CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result)));
                 } catch(Exception e) {
                     CalculationException exception = new CalculationException(e);
