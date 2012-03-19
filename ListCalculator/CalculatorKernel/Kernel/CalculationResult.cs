@@ -20,7 +20,7 @@ namespace CalculatorKernel.Kernel {
         public T Value { get { return value; } }
         public string PlainText { get { return plainText ?? (plainText = GetPlainText()); } }
         protected virtual string GetPlainText() {
-            return Value.ToString();
+            return TypeFormatters.Format(Value);
         }
         public override string ToString() {
             return PlainText;
