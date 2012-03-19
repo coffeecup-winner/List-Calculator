@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CalculatorKernel.Tests {
     [TestFixture]
@@ -61,6 +62,34 @@ factorial(5)",
             expectedResult: (CalculationResultNull)null,
             expectedString: CalculationResultNull.Instance.PlainText,
             skipValueCheck: true);
+        }
+        [Test]
+        public void ParallelCalculationTest() {
+            int sum = 0;
+            const int count = 50;
+            ManualResetEvent[] waitHandles = new ManualResetEvent[count];
+            object lck = new object();
+            EventHandler<CalculationCompletedEventArgs> handler = (s, e) => {
+                int x = ((ICalculationResult<int>)e.Result).Value;
+                Interlocked.Add(ref sum, x);
+                lock(lck) {
+                    waitHandles[x].Set();
+                }
+            };
+            try {
+                Kernel.CalculationCompleted += handler;
+                for(int i = 0; i < count; i++) {
+                    waitHandles[i] = new ManualResetEvent(false);
+                    Kernel.StartCalculating(@"
+import time
+time.sleep(0.2)
+" + i.ToString());
+                }
+                WaitHandle.WaitAll(waitHandles);
+                Assert.That(sum, Is.EqualTo(1225));
+            } finally {
+                Kernel.CalculationCompleted -= handler;
+            }
         }
 
         void TestCalculation<T>(string expression, T expectedResult, string expectedString, bool skipValueCheck = false) {

@@ -11,10 +11,15 @@ namespace CalculatorKernel.Tests {
         public static ICalculationResult Calculate(this Kernel.Kernel kernel, string expression) {
             ICalculationResult result = null;
             ManualResetEvent evt = new ManualResetEvent(false);
-            kernel.CalculationCompleted += (s, e) => { result = e.Result; evt.Set(); };
-            kernel.StartCalculating(expression);
-            evt.WaitOne();
-            return result;
+            EventHandler<CalculationCompletedEventArgs> handler = (s, e) => { result = e.Result; evt.Set(); };
+            try {
+                kernel.CalculationCompleted += handler;
+                kernel.StartCalculating(expression);
+                evt.WaitOne();
+                return result;
+            } finally {
+                kernel.CalculationCompleted -= handler;
+            }
         }
         public static ICalculationResult<T> Calculate<T>(this Kernel.Kernel kernel, string expression) {
             ICalculationResult result = kernel.Calculate(expression);
