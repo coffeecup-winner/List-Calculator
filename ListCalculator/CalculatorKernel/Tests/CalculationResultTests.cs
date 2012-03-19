@@ -18,22 +18,22 @@ namespace CalculatorKernel.Tests {
         }
         [Test]
         public void ListFormatTest() {
-            var result = kernel.Calculate<Python.List>("[1, 2]");
+            var result = Kernel.Calculate<Python.List>("[1, 2]");
             Assert.That(result.PlainText, Is.EqualTo("[1, 2]"));
         }
         [Test]
         public void DictFormatTest() {
-            var result = kernel.Calculate<Python.PythonDictionary>("{123:'x','x':123}");
+            var result = Kernel.Calculate<Python.PythonDictionary>("{123:'x','x':123}");
             Assert.That(result.PlainText, Is.EqualTo("{'x': 123, 123: 'x'}"));
         }
         [Test]
         public void StringFormatTest() {
-            var result = kernel.Calculate<string>("'xyz'");
+            var result = Kernel.Calculate<string>("'xyz'");
             Assert.That(result.PlainText, Is.EqualTo("'xyz'"));
         }
         [Test]
         public void NestedTypesTest() {
-            var result = kernel.Calculate<Python.List>("[1,{2:3,'4':[5,6,{7:'8'}]}]");
+            var result = Kernel.Calculate<Python.List>("[1,{2:3,'4':[5,6,{7:'8'}]}]");
             Assert.That(result.PlainText, Is.EqualTo("[1, {2: 3, '4': [5, 6, {7: '8'}]}]"));
         }
     }

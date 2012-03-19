@@ -3,6 +3,7 @@ using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using CalculatorKernel.Kernel;
 using IronPython.Runtime;
+using IronPython.Runtime.Exceptions;
 
 namespace CalculatorKernel.Tests {
 
@@ -45,6 +46,11 @@ def foo():
             Assert.That(Wrapper.Execute("x"), Is.EqualTo(2));
             Wrapper.Reset();
             Assert.That(() => Wrapper.Execute("x"), Throws.TypeOf<UnboundNameException>());
+        }
+        [Test]
+        public void TypedExecuteTest() {
+            Assert.That(Wrapper.Execute<int>("2"), Is.EqualTo(2));
+            Assert.That(() => Wrapper.Execute<string>("2"), Throws.TypeOf<TypeErrorException>());
         }
     }
 }

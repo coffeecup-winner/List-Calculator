@@ -17,10 +17,10 @@ namespace CalculatorKernel.Kernel {
             new Task(() => {
                 try {
                     var result = this.pythonWrapper.Execute(expression);
-                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResultFactory.Create(result)));
+                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result)));
                 } catch(Exception e) {
                     CalculationException exception = new CalculationException(e);
-                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResultFactory.Create(exception)));
+                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(exception)));
                 }
             }).Start();
         }

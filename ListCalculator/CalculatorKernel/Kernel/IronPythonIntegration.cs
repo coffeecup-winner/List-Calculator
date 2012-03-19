@@ -17,10 +17,10 @@ namespace CalculatorKernel.Kernel {
         protected ScriptEngine Engine { get { return engine; } }
         protected ScriptScope Scope { get { return scope; } }
         public dynamic Execute(string expression) {
-            return Engine.Execute(expression, scope);
+            return Engine.Execute(expression, Scope);
         }
         public T Execute<T>(string expression) {
-            return Engine.Execute<T>(expression, scope);
+            return Engine.Execute<T>(expression, Scope);
         }
         public void Reset() {
             this.scope = Engine.CreateScope();

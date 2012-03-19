@@ -64,7 +64,7 @@ factorial(5)",
         }
 
         void TestCalculation<T>(string expression, T expectedResult, string expectedString, bool skipValueCheck = false) {
-            ICalculationResult result = kernel.Calculate(expression);
+            ICalculationResult result = Kernel.Calculate(expression);
             Assert.That(result, Is.Not.Null);
             if(!skipValueCheck) {
                 ICalculationResult<T> castedResult = result as ICalculationResult<T>;
@@ -72,6 +72,7 @@ factorial(5)",
                 Assert.That(castedResult.Value, Is.EqualTo(expectedResult));
             }
             Assert.That(result.PlainText, Is.EqualTo(expectedString));
+            Assert.That(result.ToString(), Is.EqualTo(result.PlainText));
         }
     }
 }
