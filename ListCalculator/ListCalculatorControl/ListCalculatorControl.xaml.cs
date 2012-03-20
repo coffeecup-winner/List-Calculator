@@ -16,9 +16,11 @@ namespace ListCalculatorControl {
     /// <summary>
     /// Interaction logic for ListCalculatorControl.xaml
     /// </summary>
-    public partial class ListCalculatorControl : UserControl {
+    public partial class ListCalculatorControl : ListBox {
         public ListCalculatorControl() {
             InitializeComponent();
+            Items.Clear();
+            DataContext = new ListCalculatorViewModel();
         }
     }
 }

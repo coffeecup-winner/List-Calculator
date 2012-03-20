@@ -1,0 +1,8 @@
+﻿<Window x:Class="ListCalculatorUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" xmlns:my="clr-namespace:ListCalculatorControl;assembly=ListCalculatorControl">
+    <Grid>
+        <my:ListCalculatorControl Margin="12" Name="listCalculatorControl1" />
+    </Grid>
+</Window>
