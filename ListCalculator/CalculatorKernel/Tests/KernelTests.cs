@@ -18,7 +18,7 @@ namespace CalculatorKernel.Tests {
         }
         [Test]
         public void SimpleTest() {
-            TestCalculation("2",
+            TestCalculation("2", "tag",
             expectedResult: (int)2,
             expectedString: "2");
         }
@@ -28,7 +28,7 @@ namespace CalculatorKernel.Tests {
 def foo():
     return 2
 
-foo()",
+foo()", "tag",
             expectedResult: (int)2,
             expectedString: "2");
         }
@@ -40,13 +40,13 @@ def factorial(n):
         return 1
     return n * factorial(n - 1)
 
-factorial(5)",
+factorial(5)", "tag",
             expectedResult: (int)120,
             expectedString: "120");
         }
         [Test]
         public void IllegalExpressionTest() {
-            TestCalculation("1 + / * 2",
+            TestCalculation("1 + / * 2", "tag",
             expectedResult: (CalculationException)null,
             expectedString: "unexpected token '/'",
             skipValueCheck: true);
@@ -58,9 +58,9 @@ factorial(5)",
         }
         [Test]
         public void ExpressionWithoutResultTest() {
-            TestCalculation("a = 1",
+            TestCalculation("a = 1", "tag",
             expectedResult: (CalculationResultNull)null,
-            expectedString: CalculationResultNull.Instance.PlainText,
+            expectedString: new CalculationResultNull(null).PlainText,
             skipValueCheck: true);
         }
         [Test]
@@ -71,6 +71,7 @@ factorial(5)",
             object lck = new object();
             EventHandler<CalculationCompletedEventArgs> handler = (s, e) => {
                 int x = ((ICalculationResult<int>)e.Result).Value;
+                Assert.That(x, Is.EqualTo(e.Result.Tag));
                 Interlocked.Add(ref sum, x);
                 lock(lck) {
                     waitHandles[x].Set();
@@ -83,7 +84,7 @@ factorial(5)",
                     Kernel.StartCalculating(@"
 import time
 time.sleep(0.2)
-" + i.ToString());
+" + i.ToString(), i);
                 }
                 WaitHandle.WaitAll(waitHandles);
                 Assert.That(sum, Is.EqualTo(1225));
@@ -92,8 +93,8 @@ time.sleep(0.2)
             }
         }
 
-        void TestCalculation<T>(string expression, T expectedResult, string expectedString, bool skipValueCheck = false) {
-            ICalculationResult result = Kernel.Calculate(expression);
+        void TestCalculation<T>(string expression, object tag, T expectedResult, string expectedString, bool skipValueCheck = false) {
+            ICalculationResult result = Kernel.Calculate(expression, tag);
             Assert.That(result, Is.Not.Null);
             if(!skipValueCheck) {
                 ICalculationResult<T> castedResult = result as ICalculationResult<T>;
@@ -101,6 +102,7 @@ time.sleep(0.2)
                 Assert.That(castedResult.Value, Is.EqualTo(expectedResult));
             }
             Assert.That(result.PlainText, Is.EqualTo(expectedString));
+            Assert.That(result.Tag, Is.EqualTo(tag));
             Assert.That(result.ToString(), Is.EqualTo(result.PlainText));
         }
     }

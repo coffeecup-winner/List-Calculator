@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CalculatorKernel.Kernel {
     public interface IKernel {
-        void StartCalculating(string expression);
+        void StartCalculating(string expression, object tag);
         event EventHandler<CalculationCompletedEventArgs> CalculationCompleted;
     }
 
@@ -13,14 +13,14 @@ namespace CalculatorKernel.Kernel {
         IronPythonWrapper pythonWrapper = new IronPythonWrapper();
         public event EventHandler<CalculationCompletedEventArgs> CalculationCompleted = delegate { };
 
-        public void StartCalculating(string expression) {
+        public void StartCalculating(string expression, object tag = null) {
             new Task(() => {
                 try {
                     var result = this.pythonWrapper.Execute(expression);
-                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result)));
+                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result, tag)));
                 } catch(Exception e) {
                     CalculationException exception = new CalculationException(e);
-                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(exception)));
+                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(exception, tag)));
                 }
             }).Start();
         }
