@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ListCalculatorControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-              ItemsSource="{Binding}">
+              ItemsSource="{Binding Blocks}">
     
     <StackPanel>
         <TextBox AcceptsReturn="True" Text="Input here" />

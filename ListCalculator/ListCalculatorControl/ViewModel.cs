@@ -9,24 +9,39 @@ using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Threading;
 using System.Threading;
+using System.ComponentModel;
 
 namespace ListCalculatorControl {
-    public class ListCalculatorViewModel : ObservableCollection<Block> {
+    public class ListCalculatorViewModel : DependencyObject {
         Kernel kernel = new Kernel();
         int idGenerator = 0;
+        readonly ObservableCollection<Block> blocks = new ObservableCollection<Block>();
+        ActiveBlock lastActiveBlock = null;
 
         public ListCalculatorViewModel() {
             //test stuff
             Kernel.CalculationCompleted += (s, e) => GetBlockByID<ActiveBlock>((int)e.Result.Tag).Output = e.Result;
-            Add(new ActiveBlock(this, GetNextID()) { Input = "2 + 4", Output = new CalculationResult<int>(6) });
-            Add(new ActiveBlock(this, GetNextID()) { Input = "'x' + 'y'", Output = new CalculationResult<string>("xy") });
+            if(DesignerProperties.GetIsInDesignMode(this)) {
+                Blocks.Add(new ActiveBlock(this, GetNextID()) { Input = "2 + 4", Output = new CalculationResult<int>(6) });
+                Blocks.Add(new ActiveBlock(this, GetNextID()) { Input = "'x' + 'y'", Output = new CalculationResult<string>("xy") });
+            }
+            AddActiveBlock();
         }
         protected Kernel Kernel { get { return kernel; } }
+        public ObservableCollection<Block> Blocks { get { return blocks; } }
         int GetNextID() { return idGenerator++; }
         TBlock GetBlockByID<TBlock>(int id) where TBlock : Block {
-            return this.OfType<TBlock>().Single(b => b.ID == id);
+            return Blocks.OfType<TBlock>().Single(b => b.ID == id);
+        }
+        protected ActiveBlock AddActiveBlock() {
+            ActiveBlock block = new ActiveBlock(this, GetNextID());
+            Blocks.Add(block);
+            lastActiveBlock = block;
+            return block;
         }
         public void Calculate(ActiveBlock block) {
+            if(lastActiveBlock == block)
+                AddActiveBlock();
             Kernel.StartCalculating(block.Input, block.ID);
         }
     }
