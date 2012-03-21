@@ -16,8 +16,8 @@
     <ListBox.ItemTemplate>
         <DataTemplate>
             <StackPanel>
-                <TextBox Text="{Binding Input}" Width="400" />
-                <ContentControl Content="{Binding Output}">
+                <TextBox Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="400" KeyDown="TextBox_KeyDown" />
+                <ContentControl Content="{Binding Path=Output}">
                     <ContentControl.Template>
                         <ControlTemplate>
                             <Label Content="{Binding Output.PlainText}" />
