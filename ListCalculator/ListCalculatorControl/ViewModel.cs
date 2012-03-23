@@ -59,8 +59,13 @@ namespace ListCalculatorControl {
     }
 
     public class ActiveBlock : Block {
-        public static readonly DependencyProperty InputProperty = DependencyProperty.Register("Input", typeof(string), typeof(ActiveBlock));
-        public static readonly DependencyProperty OutputProperty = DependencyProperty.Register("Output", typeof(ICalculationResult), typeof(ActiveBlock));
+        public static readonly DependencyProperty InputProperty;
+        public static readonly DependencyProperty OutputProperty;
+        static ActiveBlock() {
+            Type ownerType = typeof(ActiveBlock);
+            InputProperty = DependencyProperty.Register("Input", typeof(string), ownerType);
+            OutputProperty = DependencyProperty.Register("Output", typeof(ICalculationResult), ownerType);
+        }
 
         public ActiveBlock(ListCalculatorViewModel viewModel, int id) : base(viewModel, id) { }
         public string Input {
