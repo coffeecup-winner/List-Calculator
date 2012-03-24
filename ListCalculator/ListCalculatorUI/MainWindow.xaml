@@ -1,8 +1,15 @@
 ﻿<Window x:Class="ListCalculatorUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" xmlns:my="clr-namespace:ListCalculatorControl;assembly=ListCalculatorControl">
+        xmlns:my="clr-namespace:ListCalculatorControl;assembly=ListCalculatorControl"
+        
+        Title="MainWindow" Height="350" Width="525">
+    
     <Grid>
-        <my:ListCalculatorControl Margin="12" Name="listCalculatorControl1" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <my:ListCalculatorControl  Grid.Column="0" Margin="12" Name="listCalculatorControl1" />
     </Grid>
 </Window>
