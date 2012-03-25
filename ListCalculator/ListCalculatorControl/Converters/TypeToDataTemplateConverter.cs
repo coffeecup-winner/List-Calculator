@@ -24,7 +24,7 @@ namespace ListCalculatorControl {
                 return null;
 
             ICalculationResult result = (ICalculationResult)value;
-            return templateDictionary.GetBestTemplateFor(result.Type);
+            return result.Type != null ? templateDictionary.GetBestTemplateFor(result.Type) : templateDictionary.GetBestTemplateFor<object>();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
