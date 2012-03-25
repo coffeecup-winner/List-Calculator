@@ -16,7 +16,15 @@ namespace ListCalculatorControl {
         void FillOutputAreaTemplateDictionary() {
             templateDictionary.AddTemplateFor<object>(TemplateRepository.PlainTextTemplate); //fallback template
             templateDictionary.AddTemplateFor<Exception>(TemplateRepository.CalculationErrorTemplate);
+            #region Chart templates
+            templateDictionary.AddTemplateFor<AreaChartSeries>(TemplateRepository.AreaChartTemplate);
+            templateDictionary.AddTemplateFor<BarChartSeries>(TemplateRepository.BarChartTemplate);
+            templateDictionary.AddTemplateFor<BubbleChartSeries>(TemplateRepository.BubbleChartTemplate);
+            templateDictionary.AddTemplateFor<ColumnChartSeries>(TemplateRepository.ColumnChartTemplate);
             templateDictionary.AddTemplateFor<LineChartSeries>(TemplateRepository.LineChartTemplate);
+            templateDictionary.AddTemplateFor<PieChartSeries>(TemplateRepository.PieChartTemplate);
+            templateDictionary.AddTemplateFor<ScatterChartSeries>(TemplateRepository.ScatterChartTemplate);
+            #endregion
         }
         #region IValueConverter Members
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
