@@ -10,5 +10,6 @@ namespace ListCalculatorControl.Templates {
         }
         public static DataTemplate PlainTextTemplate { get { return Instance["plainTextTemplate"] as DataTemplate; } }
         public static DataTemplate CalculationErrorTemplate { get { return Instance["calculationErrorTemplate"] as DataTemplate; } }
+        public static DataTemplate LineChartTemplate { get { return Instance["lineChartTemplate"] as DataTemplate; } }
     }
 }

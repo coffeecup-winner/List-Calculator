@@ -3,6 +3,7 @@ using ListCalculatorControl.Templates;
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using CalculatorKernel.Visual;
 
 namespace ListCalculatorControl {
     class TypeToDataTemplateConverter : IValueConverter {
@@ -15,6 +16,7 @@ namespace ListCalculatorControl {
         void FillOutputAreaTemplateDictionary() {
             templateDictionary.AddTemplateFor<object>(TemplateRepository.PlainTextTemplate); //fallback template
             templateDictionary.AddTemplateFor<Exception>(TemplateRepository.CalculationErrorTemplate);
+            templateDictionary.AddTemplateFor<LineChartSeries>(TemplateRepository.LineChartTemplate);
         }
         #region IValueConverter Members
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {

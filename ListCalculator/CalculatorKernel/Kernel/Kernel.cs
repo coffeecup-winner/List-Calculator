@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace CalculatorKernel.Kernel {
     public interface IKernel {
@@ -12,6 +13,15 @@ namespace CalculatorKernel.Kernel {
     public class Kernel : IKernel {
         IronPythonWrapper pythonWrapper = new IronPythonWrapper();
         public event EventHandler<CalculationCompletedEventArgs> CalculationCompleted = delegate { };
+
+        public Kernel() {
+            pythonWrapper.Execute(@"
+import clr
+import System
+clr.AddReferenceToFileAndPath('" + Assembly.GetExecutingAssembly().Location.Replace(@"\", @"\\") + @"')
+import CalculatorKernel.Library
+from CalculatorKernel.Library.Charting import *");
+        }
 
         public void StartCalculating(string expression, object tag = null) {
             new Task(() => {
