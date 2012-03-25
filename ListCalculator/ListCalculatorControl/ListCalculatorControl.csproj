@@ -39,8 +39,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -49,6 +47,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\TypeToDataTemplateConverter.cs" />
+    <Compile Include="Templates\TemplateRepository.xaml.cs">
+      <DependentUpon>TemplateRepository.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypedDataTemplateDictionary.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="ListCalculatorControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -58,6 +61,13 @@
       <DependentUpon>ListCalculatorControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Resource Include="Templates\PlainTextTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="Templates\TemplateRepository.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
