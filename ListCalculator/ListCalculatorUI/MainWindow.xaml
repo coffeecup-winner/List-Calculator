@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:ListCalculatorControl;assembly=ListCalculatorControl"
         
-        Title="MainWindow" Height="350" Width="525">
+        WindowStartupLocation="CenterScreen"
+        Title="List Calculator" Height="500" Width="800">
     
     <Grid>
         <Grid.ColumnDefinitions>

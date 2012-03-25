@@ -13,6 +13,10 @@
 
     <ListBox.Resources>
         <local:TypeToDataTemplateConverter x:Key="typeToDataTemplateConverter"/>
+        <Style x:Key="inputTextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
     </ListBox.Resources>
 
     <ListBox.ItemContainerStyle>
@@ -36,8 +40,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Row="0" Grid.Column="0" 
+                <TextBox Grid.Row="0" Grid.Column="0"
                          Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                         Style="{StaticResource inputTextBoxStyle}"
                          KeyDown="TextBox_KeyDown"/>
 
                 <ContentControl Grid.Row="1" Grid.Column="0" 
