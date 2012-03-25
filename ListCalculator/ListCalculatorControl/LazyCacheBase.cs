@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ListCalculatorControl {
     public abstract class LazyCacheBase<TKey, TValue>
@@ -18,6 +19,11 @@ namespace ListCalculatorControl {
             TValue result = GetValueFor(key);
             Cache.Add(key, result);
             return result;
+        }
+        protected void InvalidateValues(Func<TKey, bool> selector) {
+            List<TKey> keysToRemove = Cache.Keys.Where(selector).ToList();
+            foreach(TKey key in keysToRemove)
+                Cache.Remove(key);
         }
         protected abstract TValue GetValueFor(TKey key);
     }

@@ -8,12 +8,18 @@ namespace ListCalculatorControl {
         readonly Dictionary<Type, DataTemplate> templates = new Dictionary<Type, DataTemplate>();
         readonly TypeHierarchyCache typeHierarchyCache = new TypeHierarchyCache();
 
+        protected Dictionary<Type, DataTemplate> Templates { get { return templates; } }
+        protected TypeHierarchyCache TypeHierarchyCache { get { return typeHierarchyCache; } }
         protected DataTemplate GetTemplateOrNull(Type type) {
             DataTemplate result;
-            return templates.TryGetValue(type, out result) ? result : null;
+            return Templates.TryGetValue(type, out result) ? result : null;
         }
         public void AddTemplateFor(Type type, DataTemplate dataTemplate) {
-            templates.Add(type, dataTemplate);
+            Templates.Add(type, dataTemplate);
+            InvalidateValues(t => IsOrDerivedFrom(type));
+        }
+        bool IsOrDerivedFrom(Type type) {
+            return TypeHierarchyCache.GetTypeHierarchyFor(type).Contains(type);
         }
         public DataTemplate GetBestTemplateFor(Type type) {
             return GetTemplatesFor(type)[0];
@@ -33,7 +39,7 @@ namespace ListCalculatorControl {
         }
         #endregion
         protected override List<DataTemplate> GetValueFor(Type key) {
-            return typeHierarchyCache.GetTypeHierarchyFor(key).Select(type => GetTemplateOrNull(type)).Where(dt => dt != null).ToList();
+            return TypeHierarchyCache.GetTypeHierarchyFor(key).Select(type => GetTemplateOrNull(type)).Where(dt => dt != null).ToList();
         }
     }
 

@@ -51,8 +51,8 @@ namespace ListCalculatorControl.Tests {
             DataTemplate stringTemplate = new DataTemplate();
             TemplateDictionary.AddTemplateFor<object>(objectTemplate);
             TemplateDictionary.AddTemplateFor<string>(stringTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<string>(), stringTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor(typeof(string).BaseType), objectTemplate);
+            AssertTemplates<string>(stringTemplate, objectTemplate);
+            Assert.That(TemplateDictionary.GetTemplatesFor(typeof(string).BaseType), Is.EquivalentTo(new List<DataTemplate> { objectTemplate }));
         }
         class A { }
         class B : A { }
@@ -66,11 +66,11 @@ namespace ListCalculatorControl.Tests {
             TemplateDictionary.AddTemplateFor<object>(objectTemplate);
             TemplateDictionary.AddTemplateFor<B>(bTemplate);
             TemplateDictionary.AddTemplateFor<D>(dTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<D>(), dTemplate, bTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<C>(), bTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<B>(), bTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<A>(), objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<object>(), objectTemplate);
+            AssertTemplates<D>(dTemplate, bTemplate, objectTemplate);
+            AssertTemplates<C>(bTemplate, objectTemplate);
+            AssertTemplates<B>(bTemplate, objectTemplate);
+            AssertTemplates<A>(objectTemplate);
+            AssertTemplates<object>(objectTemplate);
         }
         class B2 : A { }
         class C2 : B2 { }
@@ -84,14 +84,27 @@ namespace ListCalculatorControl.Tests {
             TemplateDictionary.AddTemplateFor<A>(aTemplate);
             TemplateDictionary.AddTemplateFor<C>(cTemplate);
             TemplateDictionary.AddTemplateFor<B2>(b2Template);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<object>(), objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<A>(), aTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<B>(), aTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<C>(), cTemplate, aTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<B2>(), b2Template, aTemplate, objectTemplate);
-            AssertTemplates(TemplateDictionary.GetTemplatesFor<C2>(), b2Template, aTemplate, objectTemplate);
+            AssertTemplates<object>(objectTemplate);
+            AssertTemplates<A>(aTemplate, objectTemplate);
+            AssertTemplates<B>(aTemplate, objectTemplate);
+            AssertTemplates<C>(cTemplate, aTemplate, objectTemplate);
+            AssertTemplates<B2>(b2Template, aTemplate, objectTemplate);
+            AssertTemplates<C2>(b2Template, aTemplate, objectTemplate);
         }
-        void AssertTemplates(List<DataTemplate> actualTemplates, params DataTemplate[] expectedTemplates) {
+        [Test]
+        public void InvalidateTemplatesTest() {
+            DataTemplate objectTemplate = new DataTemplate();
+            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
+            AssertTemplates<D>(objectTemplate);
+            DataTemplate aTemplate = new DataTemplate();
+            TemplateDictionary.AddTemplateFor<A>(aTemplate);
+            AssertTemplates<D>(aTemplate, objectTemplate);
+            DataTemplate dTemplate = new DataTemplate();
+            TemplateDictionary.AddTemplateFor<D>(dTemplate);
+            AssertTemplates<D>(dTemplate, aTemplate, objectTemplate);
+        }
+        void AssertTemplates<T>(params DataTemplate[] expectedTemplates) {
+            List<DataTemplate> actualTemplates = TemplateDictionary.GetTemplatesFor<T>();
             Assert.That(actualTemplates.Count, Is.EqualTo(expectedTemplates.Length));
             for(int i = 0; i < actualTemplates.Count; i++)
                 Assert.That(actualTemplates[i], Is.EqualTo(expectedTemplates[i]));
