@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style x:Key="textBlockStyleCalculationError" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="#EC8585" />
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    
+    <DataTemplate x:Key="calculationErrorTemplate">
+        <TextBlock Style="{StaticResource textBlockStyleCalculationError}" Text="{Binding PlainText}" />
+    </DataTemplate>
+</ResourceDictionary>

@@ -5,11 +5,10 @@ namespace ListCalculatorControl.Templates {
         static TemplateRepository instance;
 
         static TemplateRepository Instance { get { return instance ?? (instance = new TemplateRepository()); } }
-
-        public static DataTemplate PlaintTextTemplate { get { return Instance["plainTextTemplate"] as DataTemplate; } }
-
         public TemplateRepository() {
             InitializeComponent();
         }
+        public static DataTemplate PlainTextTemplate { get { return Instance["plainTextTemplate"] as DataTemplate; } }
+        public static DataTemplate CalculationErrorTemplate { get { return Instance["calculationErrorTemplate"] as DataTemplate; } }
     }
 }

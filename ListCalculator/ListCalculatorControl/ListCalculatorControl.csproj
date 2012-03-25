@@ -70,6 +70,10 @@
     <Resource Include="Templates\PlainTextTemplate.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Templates\CalculationErrorTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Templates\TemplateRepository.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

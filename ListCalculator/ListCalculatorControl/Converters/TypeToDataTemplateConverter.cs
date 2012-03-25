@@ -13,7 +13,8 @@ namespace ListCalculatorControl {
             FillOutputAreaTemplateDictionary();
         }
         void FillOutputAreaTemplateDictionary() {
-            templateDictionary.AddTemplateFor<object>(TemplateRepository.PlaintTextTemplate); //fallback template
+            templateDictionary.AddTemplateFor<object>(TemplateRepository.PlainTextTemplate); //fallback template
+            templateDictionary.AddTemplateFor<Exception>(TemplateRepository.CalculationErrorTemplate);
         }
         #region IValueConverter Members
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
