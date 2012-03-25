@@ -96,8 +96,12 @@ time.sleep(0.2)
         void TestCalculation<T>(string expression, object tag, T expectedResult, string expectedString, bool skipValueCheck = false) {
             ICalculationResult result = Kernel.Calculate(expression, tag);
             Assert.That(result, Is.Not.Null);
+            ICalculationResult<T> castedResult = result as ICalculationResult<T>;
+            if(castedResult != null)
+                Assert.That(castedResult.Type, Is.EqualTo(typeof(T)));
+            else
+                Assert.That(result.Type, Is.EqualTo(null));
             if(!skipValueCheck) {
-                ICalculationResult<T> castedResult = result as ICalculationResult<T>;
                 Assert.That(castedResult, Is.Not.Null, "Returned value is not of type " + typeof(T));
                 Assert.That(castedResult.Value, Is.EqualTo(expectedResult));
             }
