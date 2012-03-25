@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\TestDriven.NET 3\NUnit\2.5\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -47,10 +51,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LazyCacheBase.cs" />
     <Compile Include="Converters\TypeToDataTemplateConverter.cs" />
     <Compile Include="Templates\TemplateRepository.xaml.cs">
       <DependentUpon>TemplateRepository.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tests\TypedDataTemplateDictionaryTests.cs" />
     <Compile Include="TypedDataTemplateDictionary.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="ListCalculatorControl.xaml">
