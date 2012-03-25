@@ -3,7 +3,7 @@ using ListCalculatorControl.Templates;
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using CalculatorKernel.Visual;
+using CalculatorKernel.Library;
 
 namespace ListCalculatorControl {
     class TypeToDataTemplateConverter : IValueConverter {
