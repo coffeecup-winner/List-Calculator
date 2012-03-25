@@ -6,7 +6,6 @@ namespace CalculatorKernel.Kernel {
     public interface ICalculationResult {
         string PlainText { get; }
         object Tag { get; }
-        Type Type { get; }
     }
     public interface ICalculationResult<T> : ICalculationResult {
         T Value { get; }
@@ -22,7 +21,6 @@ namespace CalculatorKernel.Kernel {
             this.tag = tag;
         }
         public T Value { get { return value; } }
-        public Type Type { get { return typeof(T); } }
         public string PlainText { get { return plainText ?? (plainText = GetPlainText()); } }
         public object Tag { get { return tag; } }
         protected virtual string GetPlainText() {

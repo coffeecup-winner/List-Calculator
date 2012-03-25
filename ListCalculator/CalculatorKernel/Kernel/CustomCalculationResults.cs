@@ -24,7 +24,6 @@ namespace CalculatorKernel.Kernel {
             this.tag = tag;
         }
         public object Tag { get { return tag; } }
-        public Type Type { get { return null; } }
         public string PlainText { get { return "Expression was evaluated without the output value."; } }
         public override string ToString() {
             return PlainText;
