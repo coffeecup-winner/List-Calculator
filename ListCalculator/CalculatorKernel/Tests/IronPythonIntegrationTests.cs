@@ -52,5 +52,13 @@ def foo():
             Assert.That(Wrapper.Execute<int>("2"), Is.EqualTo(2));
             Assert.That(() => Wrapper.Execute<string>("2"), Throws.TypeOf<TypeErrorException>());
         }
+        [Test]
+        public void SetVariableTest() {
+            Assert.That(() => Wrapper.Execute("x"), Throws.TypeOf<UnboundNameException>());
+            Wrapper.SetVariable("x", 2);
+            Assert.That(Wrapper.Execute<int>("x"), Is.EqualTo(2));
+            Wrapper.Reset();
+            Assert.That(() => Wrapper.Execute("x"), Throws.TypeOf<UnboundNameException>());
+        }
     }
 }

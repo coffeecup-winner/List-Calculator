@@ -104,6 +104,26 @@ time.sleep(0.2)
             result = Kernel.Calculate("2");
             Assert.That(result.SequenceNumber, Is.EqualTo(0));
         }
+        [Test]
+        public void CalculationHistoryTest() {
+            Kernel.Reset();
+            Kernel.Calculate("2");
+            Assert.That(Kernel.GetHistoryAt(0), Is.EqualTo(2));
+            Assert.That(Kernel.Calculate<int>("__last * 2").Value, Is.EqualTo(4));
+            Assert.That(Kernel.GetHistoryAt(1), Is.EqualTo(4));
+            Assert.That(Kernel.Calculate<int>("__out(0) ** __out(1)").Value, Is.EqualTo(16));
+            Assert.That(Kernel.GetHistoryAt(2), Is.EqualTo(16));
+            Kernel.Reset();
+            Assert.That(() => Kernel.GetHistoryAt(0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Kernel.Calculate("3");
+            Assert.That(Kernel.GetHistoryAt(0), Is.EqualTo(3));
+            Assert.That(Kernel.Calculate<int>("__out(0)").Value, Is.EqualTo(3));
+            Kernel.Reset();
+            Kernel.Calculate("a = 2");
+            Assert.That(Kernel.Calculate("__last"), Is.InstanceOf<CalculationResultNull>());
+            Kernel.Calculate("x");
+            Assert.That(Kernel.Calculate("__last"), Is.InstanceOf<CalculationResult<CalculationException>>());
+        }
 
         void TestCalculation<T>(string expression, object tag, T expectedResult, string expectedString, bool skipValueCheck = false) {
             ICalculationResult result = Kernel.Calculate(expression, tag);

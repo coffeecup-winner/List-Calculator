@@ -14,15 +14,18 @@ namespace CalculatorKernel.Kernel {
     public class Kernel : IKernel {
         IronPythonWrapper pythonWrapper = new IronPythonWrapper();
         public event EventHandler<CalculationCompletedEventArgs> CalculationCompleted = delegate { };
+        List<ICalculationResult> calculationHistory = new List<ICalculationResult>();
         int nextSequenceNumber = 0;
 
         public Kernel() {
+            pythonWrapper.SetVariable("__kernel", this);
             pythonWrapper.Execute(@"
 import clr
 import System
 clr.AddReferenceToFileAndPath('" + Assembly.GetExecutingAssembly().Location.Replace(@"\", @"\\") + @"')
 import CalculatorKernel.Library
-from CalculatorKernel.Library.Charting import *");
+from CalculatorKernel.Library.Charting import *
+__out = __kernel.GetHistoryAt");
         }
         int GetNextSequenceNumber() {
             return this.nextSequenceNumber++;
@@ -31,15 +34,28 @@ from CalculatorKernel.Library.Charting import *");
             new Task(() => {
                 try {
                     var result = this.pythonWrapper.Execute(expression);
-                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(result, GetNextSequenceNumber(), tag)));
+                    RaiseCalculationCompleted(result, tag);
                 } catch(Exception e) {
-                    CalculationException exception = new CalculationException(e);
-                    CalculationCompleted(this, new CalculationCompletedEventArgs(CalculationResult.Create(exception, GetNextSequenceNumber(), tag)));
+                    RaiseCalculationCompleted(new CalculationException(e), tag);
                 }
             }).Start();
         }
+        public dynamic GetHistoryAt(int index) {
+            dynamic result = calculationHistory[index];
+            return result.Value;
+        }
+        void RaiseCalculationCompleted(dynamic result, object tag) {
+            dynamic calculationResult = CalculationResult.Create(result, GetNextSequenceNumber(), tag);
+            OnBeforeCalculationCompleted(calculationResult);
+            CalculationCompleted(this, new CalculationCompletedEventArgs(calculationResult));
+        }
+        void OnBeforeCalculationCompleted(dynamic result) {
+            calculationHistory.Add(result);
+            this.pythonWrapper.SetVariable("__last", result is CalculationResultNull ? null : result.Value);
+        }
         public void Reset() {
             this.nextSequenceNumber = 0;
+            this.calculationHistory.Clear();
         }
     }
 

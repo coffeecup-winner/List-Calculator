@@ -22,6 +22,9 @@ namespace CalculatorKernel.Kernel {
         public T Execute<T>(string expression) {
             return Engine.Execute<T>(expression, Scope);
         }
+        public void SetVariable(string name, object value) {
+            Scope.SetVariable(name, value);
+        }
         public void Reset() {
             this.scope = Engine.CreateScope();
         }
