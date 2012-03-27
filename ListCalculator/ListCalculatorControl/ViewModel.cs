@@ -23,8 +23,8 @@ namespace ListCalculatorControl {
             //test stuff
             Kernel.CalculationCompleted += (s, e) => GetBlockByID<ActiveBlock>((int)e.Result.Tag).Output = e.Result;
             if(DesignerProperties.GetIsInDesignMode(this)) {
-                Blocks.Add(new ActiveBlock(this, GetNextID()) { Input = "2 + 4", Output = new CalculationResult<int>(6) });
-                Blocks.Add(new ActiveBlock(this, GetNextID()) { Input = "'x' + 'y'", Output = new CalculationResult<string>("xy") });
+                Blocks.Add(new ActiveBlock(this, GetNextID()) { Input = "2 + 4", Output = new CalculationResult<int>(6, 0) });
+                Blocks.Add(new ActiveBlock(this, GetNextID()) { Input = "'x' + 'y'", Output = new CalculationResult<string>("xy", 1) });
             }
             AddActiveBlock();
         }

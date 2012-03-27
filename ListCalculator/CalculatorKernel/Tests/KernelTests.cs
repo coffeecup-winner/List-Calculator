@@ -60,7 +60,7 @@ factorial(5)", "tag",
         public void ExpressionWithoutResultTest() {
             TestCalculation("a = 1", "tag",
             expectedResult: (CalculationResultNull)null,
-            expectedString: new CalculationResultNull(null).PlainText,
+            expectedString: new CalculationResultNull(1, null).PlainText,
             skipValueCheck: true);
         }
         [Test]
@@ -91,6 +91,18 @@ time.sleep(0.2)
             } finally {
                 Kernel.CalculationCompleted -= handler;
             }
+        }
+        [Test]
+        public void SequenceNumbersTest() {
+            Kernel.Reset();
+            ICalculationResult result = null;
+            for(int i = 0; i < 100; i++) {
+                result = Kernel.Calculate("2");
+                Assert.That(result.SequenceNumber, Is.EqualTo(i));
+            }
+            Kernel.Reset();
+            result = Kernel.Calculate("2");
+            Assert.That(result.SequenceNumber, Is.EqualTo(0));
         }
 
         void TestCalculation<T>(string expression, object tag, T expectedResult, string expectedString, bool skipValueCheck = false) {

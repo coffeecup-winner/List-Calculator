@@ -7,24 +7,37 @@ namespace CalculatorKernel.Kernel {
         string PlainText { get; }
         object Tag { get; }
         Type Type { get; }
+        int SequenceNumber { get; }
     }
     public interface ICalculationResult<T> : ICalculationResult {
         T Value { get; }
     }
 
-    public class CalculationResult<T> : ICalculationResult<T> {
-        readonly T value;
+    public abstract class CalculationResultBase : ICalculationResult {
         readonly object tag;
-        string plainText = null;
+        readonly int sequenceNumber;
 
-        public CalculationResult(T value, object tag = null) {
-            this.value = value;
+        public CalculationResultBase(int sequenceNumber, object tag = null) {
+            this.sequenceNumber = sequenceNumber;
             this.tag = tag;
         }
-        public T Value { get { return value; } }
-        public Type Type { get { return typeof(T); } }
-        public string PlainText { get { return plainText ?? (plainText = GetPlainText()); } }
         public object Tag { get { return tag; } }
+        public int SequenceNumber { get { return sequenceNumber; } }
+        public abstract string PlainText { get; }
+        public abstract Type Type { get; }
+    }
+
+    public class CalculationResult<T> : CalculationResultBase, ICalculationResult<T> {
+        readonly T value;
+        string plainText = null;
+
+        public CalculationResult(T value, int sequenceNumber, object tag = null)
+            : base(sequenceNumber, tag) {
+            this.value = value;
+        }
+        public T Value { get { return value; } }
+        public override Type Type { get { return typeof(T); } }
+        public override string PlainText { get { return plainText ?? (plainText = GetPlainText()); } }
         protected virtual string GetPlainText() {
             return TypeFormatters.Format(Value);
         }

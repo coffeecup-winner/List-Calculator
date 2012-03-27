@@ -8,24 +8,21 @@ using System.Diagnostics.Contracts;
 namespace CalculatorKernel.Kernel {
     public static class CalculationResult {
         //HACK: this method get called if value == null
-        public static CalculationResultNull Create(object value, object tag) {
+        public static CalculationResultNull Create(object value, int sequenceNumber, object tag) {
             Contract.Assert(value == null);
-            return new CalculationResultNull(tag);
+            return new CalculationResultNull(sequenceNumber, tag);
         }
-        public static ICalculationResult<T> Create<T>(T value, object tag) {
-            return new CalculationResult<T>(value, tag);
+        public static ICalculationResult<T> Create<T>(T value, int sequenceNumber, object tag) {
+            return new CalculationResult<T>(value, sequenceNumber, tag);
         }
     }
 
-    public sealed class CalculationResultNull : ICalculationResult {
-        readonly object tag;
-
-        public CalculationResultNull(object tag) {
-            this.tag = tag;
+    public sealed class CalculationResultNull : CalculationResultBase {
+        public CalculationResultNull(int sequenceNumber, object tag)
+            : base(sequenceNumber, tag) {
         }
-        public object Tag { get { return tag; } }
-        public Type Type { get { return null; } }
-        public string PlainText { get { return "Expression was evaluated without the output value."; } }
+        public override Type Type { get { return null; } }
+        public override string PlainText { get { return "Expression was evaluated without the output value."; } }
         public override string ToString() {
             return PlainText;
         }
