@@ -25,6 +25,7 @@ import System
 clr.AddReferenceToFileAndPath('" + Assembly.GetExecutingAssembly().Location.Replace(@"\", @"\\") + @"')
 import CalculatorKernel.Library
 from CalculatorKernel.Library.Charting import *
+from math import *
 __out = __kernel.GetHistoryAt");
         }
         int GetNextSequenceNumber() {

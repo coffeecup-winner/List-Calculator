@@ -124,6 +124,11 @@ time.sleep(0.2)
             Kernel.Calculate("x");
             Assert.That(Kernel.Calculate("__last"), Is.InstanceOf<CalculationResult<CalculationException>>());
         }
+        [Test]
+        public void ImportMathTest() {
+            Assert.That(Kernel.Calculate<double>("sqrt(4)").Value, Is.EqualTo(2.0));
+            Assert.That(Kernel.Calculate<double>("cos(0)").Value, Is.EqualTo(1.0));
+        }
 
         void TestCalculation<T>(string expression, object tag, T expectedResult, string expectedString, bool skipValueCheck = false) {
             ICalculationResult result = Kernel.Calculate(expression, tag);
