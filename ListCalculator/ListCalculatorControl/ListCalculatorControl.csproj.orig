@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -63,9 +65,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command.cs" />
-    <Compile Include="Tests\ControlTests.cs" />
-    <Compile Include="Tests\Helpers.cs" />
     <Compile Include="LazyCacheBase.cs" />
     <Compile Include="Converters\TypeToDataTemplateConverter.cs" />
     <Compile Include="Templates\TemplateRepository.xaml.cs">
@@ -73,6 +72,9 @@
     </Compile>
     <Compile Include="Tests\TypedDataTemplateDictionaryTests.cs" />
     <Compile Include="TypedDataTemplateDictionary.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="Tests\ControlTests.cs" />
+    <Compile Include="Tests\Helpers.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="ListCalculatorControl.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Windows.Threading;
 using System.Threading;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace ListCalculatorControl {
     public class ListCalculatorViewModel : DependencyObject {
@@ -61,13 +62,20 @@ namespace ListCalculatorControl {
     public class ActiveBlock : Block {
         public static readonly DependencyProperty InputProperty;
         public static readonly DependencyProperty OutputProperty;
+        private static readonly DependencyPropertyKey UpdateCommandPropertyKey;
+        public static readonly DependencyProperty UpdateCommandProperty;
         static ActiveBlock() {
             Type ownerType = typeof(ActiveBlock);
             InputProperty = DependencyProperty.Register("Input", typeof(string), ownerType);
             OutputProperty = DependencyProperty.Register("Output", typeof(ICalculationResult), ownerType);
+            UpdateCommandPropertyKey = DependencyProperty.RegisterReadOnly("UpdateCommand", typeof(ICommand), ownerType, new PropertyMetadata());
+            UpdateCommandProperty = UpdateCommandPropertyKey.DependencyProperty;
         }
 
-        public ActiveBlock(ListCalculatorViewModel viewModel, int id) : base(viewModel, id) { }
+        public ActiveBlock(ListCalculatorViewModel viewModel, int id)
+            : base(viewModel, id) {
+            UpdateCommand = new DelegateCommand(d => this.Calculate());
+        }
         public string Input {
             get { return (string)GetValue(InputProperty); }
             set { SetValue(InputProperty, value); }
@@ -81,6 +89,10 @@ namespace ListCalculatorControl {
                 Dispatcher.BeginInvoke(DispatcherPriority.Background,
                     new SendOrPostCallback(target => SetValue(OutputProperty, target)), value);
             }
+        }
+        public ICommand UpdateCommand {
+            get { return (ICommand)GetValue(UpdateCommandProperty); }
+            private set { this.SetValue(UpdateCommandPropertyKey, value); }
         }
         public void Calculate() {
             ViewModel.Calculate(this);

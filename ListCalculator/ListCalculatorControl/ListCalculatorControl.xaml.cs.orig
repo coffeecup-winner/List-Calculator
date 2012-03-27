@@ -1,16 +1,35 @@
+<<<<<<< HEAD
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+>>>>>>> gui_old
 
 namespace ListCalculatorControl {
     /// <summary>
     /// Interaction logic for ListCalculatorControl.xaml
     /// </summary>
     public partial class ListCalculatorControl : ListBox {
+<<<<<<< HEAD
         public ListCalculatorViewModel ViewModel {
             get { return DataContext as ListCalculatorViewModel; }
             set { DataContext = value; }
         }
 
+=======
+>>>>>>> gui_old
         public ListCalculatorControl() {
             InitializeComponent();
             Items.Clear();
@@ -19,6 +38,10 @@ namespace ListCalculatorControl {
 
         void TextBox_KeyDown(object sender, KeyEventArgs e) {
             ((TextBox)sender).GetBindingExpression(TextBox.TextProperty).UpdateSource();
+<<<<<<< HEAD
+            ((ActiveBlock)(((TextBox)sender).DataContext)).Calculate();
+=======
+>>>>>>> gui_old
         }
     }
 }
