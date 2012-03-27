@@ -13,6 +13,12 @@
 
     <ListBox.Resources>
         <local:TypeToDataTemplateConverter x:Key="typeToDataTemplateConverter"/>
+        <Style x:Key="inputOutputLabelsStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Margin" Value="0,5,1,0" />
+        </Style>
         <Style x:Key="inputTextBoxStyle" TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Padding" Value="3" />
@@ -38,10 +44,14 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="ExpressionBox" Grid.Row="0" Grid.Column="0" AcceptsReturn="True"
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="{Binding Output.SequenceNumber, StringFormat=in(\{0\})\=}"
+                           Style="{StaticResource inputOutputLabelsStyle}" />
+                <TextBox x:Name="ExpressionBox" Grid.Row="0" Grid.Column="1" AcceptsReturn="True"
                          Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                          Style="{StaticResource inputTextBoxStyle}"
                          KeyDown="TextBox_KeyDown">
@@ -50,7 +60,10 @@
                     </TextBox.InputBindings>
                 </TextBox>
 
-                <ContentControl Grid.Row="1" Grid.Column="0" 
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="{Binding Output.SequenceNumber, StringFormat=out(\{0\})\=}"
+                           Style="{StaticResource inputOutputLabelsStyle}" />
+                <ContentControl Grid.Row="1" Grid.Column="1" 
                                 Content="{Binding Output}" 
                                 ContentTemplate="{Binding Content, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource typeToDataTemplateConverter}}"/>
             </Grid>

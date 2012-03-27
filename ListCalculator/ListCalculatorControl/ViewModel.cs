@@ -60,6 +60,7 @@ namespace ListCalculatorControl {
     }
 
     public class ActiveBlock : Block {
+        #region Dependency property declarations
         public static readonly DependencyProperty InputProperty;
         public static readonly DependencyProperty OutputProperty;
         private static readonly DependencyPropertyKey UpdateCommandPropertyKey;
@@ -71,10 +72,11 @@ namespace ListCalculatorControl {
             UpdateCommandPropertyKey = DependencyProperty.RegisterReadOnly("UpdateCommand", typeof(ICommand), ownerType, new PropertyMetadata());
             UpdateCommandProperty = UpdateCommandPropertyKey.DependencyProperty;
         }
+        #endregion
 
         public ActiveBlock(ListCalculatorViewModel viewModel, int id)
             : base(viewModel, id) {
-            UpdateCommand = new DelegateCommand(d => this.Calculate());
+                UpdateCommand = new DelegateCommand(d => ViewModel.Calculate(this));
         }
         public string Input {
             get { return (string)GetValue(InputProperty); }
@@ -93,9 +95,6 @@ namespace ListCalculatorControl {
         public ICommand UpdateCommand {
             get { return (ICommand)GetValue(UpdateCommandProperty); }
             private set { this.SetValue(UpdateCommandPropertyKey, value); }
-        }
-        public void Calculate() {
-            ViewModel.Calculate(this);
         }
     }
 }
