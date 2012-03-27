@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="textBlockStyle" TargetType="TextBlock">
+    <Style x:Key="textBlockStyle" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="FontStyle" Value="Italic"/>
@@ -11,7 +11,9 @@
     </Style>
 
     <DataTemplate x:Key="plainTextTemplate">
-        <TextBlock Style="{StaticResource textBlockStyle}" 
-                   Text="{Binding PlainText}"/>
+        <TextBox 
+            IsReadOnly="True" 
+            Text="{Binding PlainText, Mode=OneWay}" 
+            Style="{StaticResource textBlockStyle}"/>
     </DataTemplate>
 </ResourceDictionary>
