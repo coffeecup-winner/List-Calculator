@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
               ItemsSource="{Binding Blocks}">
-    
     <StackPanel>
         <TextBox AcceptsReturn="True" Text="Input here" />
         <Label>xxx</Label>
@@ -16,8 +15,12 @@
     <ListBox.ItemTemplate>
         <DataTemplate>
             <StackPanel>
-                <TextBox Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="400" KeyDown="TextBox_KeyDown" />
-                <ContentControl Content="{Binding Path=Output}">
+                <TextBox x:Name="ExpressionBox" Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="400" AcceptsReturn="True" KeyDown="TextBox_KeyDown">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Modifiers="Shift" Command="{Binding Path=UpdateCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <ContentControl x:Name="OutputControl" Content="{Binding Path=Output}">
                     <ContentControl.Template>
                         <ControlTemplate>
                             <Label Content="{Binding Output.PlainText}" />

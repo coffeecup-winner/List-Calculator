@@ -24,9 +24,7 @@ namespace ListCalculatorControl {
         }
 
         void TextBox_KeyDown(object sender, KeyEventArgs e) {
-            if(e.Key != Key.Enter) return;
             ((TextBox)sender).GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            ((ActiveBlock)(((TextBox)sender).DataContext)).Calculate();
         }
     }
 }
