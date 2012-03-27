@@ -16,6 +16,7 @@
         <Style x:Key="inputTextBoxStyle" TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Padding" Value="3" />
+            <Setter Property="Margin" Value="0,0,0,1" />
         </Style>
     </ListBox.Resources>
 
