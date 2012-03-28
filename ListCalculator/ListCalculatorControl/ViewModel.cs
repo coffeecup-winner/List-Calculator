@@ -85,7 +85,7 @@ namespace ListCalculatorControl {
         public ICalculationResult Output {
             get {
                 return (ICalculationResult)Dispatcher.Invoke(DispatcherPriority.Background,
-                    new DispatcherOperationCallback(target => GetValue(OutputProperty)));
+                    new DispatcherOperationCallback(target => GetValue(OutputProperty)), null);
             }
             set {
                 Dispatcher.BeginInvoke(DispatcherPriority.Background,

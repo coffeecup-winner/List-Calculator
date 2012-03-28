@@ -12,6 +12,7 @@
          ItemsSource="{Binding Blocks}">
 
     <ListBox.Resources>
+        <local:OutputContextMenu x:Key="outputContextMenu" />
         <local:TypeToDataTemplateConverter x:Key="typeToDataTemplateConverter"/>
         <Style x:Key="inputOutputLabelsStyle" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold" />
@@ -63,9 +64,10 @@
                 <TextBlock Grid.Row="1" Grid.Column="0"
                            Text="{Binding Output.SequenceNumber, StringFormat=out(\{0\})\=}"
                            Style="{StaticResource inputOutputLabelsStyle}" />
-                <ContentControl Grid.Row="1" Grid.Column="1" 
+                <ContentControl Grid.Row="1" Grid.Column="1"
                                 Content="{Binding Output}" 
-                                ContentTemplate="{Binding Content, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource typeToDataTemplateConverter}}"/>
+                                ContentTemplate="{Binding Content, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource typeToDataTemplateConverter}}"
+                                ContextMenuOpening="ContentControl_ContextMenuOpening" />
             </Grid>
         </DataTemplate>
     </ListBox.ItemTemplate>
