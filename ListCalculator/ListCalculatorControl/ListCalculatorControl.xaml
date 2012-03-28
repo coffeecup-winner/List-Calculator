@@ -12,8 +12,7 @@
          ItemsSource="{Binding Blocks}">
 
     <ListBox.Resources>
-        <local:OutputContextMenu x:Key="outputContextMenu" />
-        <local:TypeToDataTemplateConverter x:Key="typeToDataTemplateConverter"/>
+        <local:TypeToDataTemplateConverter x:Key="typeToDataTemplateConverter" />
         <Style x:Key="inputOutputLabelsStyle" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="HorizontalAlignment" Value="Right" />

@@ -18,13 +18,13 @@ namespace ListCalculatorControl.Tests {
         [Test]
         public void GetExistingTemplateTest() {
             DataTemplate stringTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<string>(stringTemplate);
+            TemplateDictionary.AddTemplateFor<string>("s", stringTemplate);
             Assert.That(TemplateDictionary.GetBestTemplateFor<string>(), Is.EqualTo(stringTemplate));
         }
         [Test]
         public void GetFallbackTemplateTest() {
             DataTemplate objectTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
             Assert.That(TemplateDictionary.GetBestTemplateFor<object>(), Is.EqualTo(objectTemplate));
             Assert.That(TemplateDictionary.GetBestTemplateFor<string>(), Is.EqualTo(objectTemplate));
             Assert.That(TemplateDictionary.GetBestTemplateFor<int>(), Is.EqualTo(objectTemplate));
@@ -36,9 +36,9 @@ namespace ListCalculatorControl.Tests {
             DataTemplate objectTemplate = new DataTemplate();
             DataTemplate stringTemplate = new DataTemplate();
             DataTemplate listIntTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
-            TemplateDictionary.AddTemplateFor<string>(stringTemplate);
-            TemplateDictionary.AddTemplateFor<List<int>>(listIntTemplate);
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
+            TemplateDictionary.AddTemplateFor<string>("s", stringTemplate);
+            TemplateDictionary.AddTemplateFor<List<int>>("l", listIntTemplate);
             Assert.That(TemplateDictionary.GetBestTemplateFor<object>(), Is.EqualTo(objectTemplate));
             Assert.That(TemplateDictionary.GetBestTemplateFor<string>(), Is.EqualTo(stringTemplate));
             Assert.That(TemplateDictionary.GetBestTemplateFor<List<int>>(), Is.EqualTo(listIntTemplate));
@@ -49,10 +49,10 @@ namespace ListCalculatorControl.Tests {
         public void GetTemplatesTest() {
             DataTemplate objectTemplate = new DataTemplate();
             DataTemplate stringTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
-            TemplateDictionary.AddTemplateFor<string>(stringTemplate);
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
+            TemplateDictionary.AddTemplateFor<string>("s", stringTemplate);
             AssertTemplates<string>(stringTemplate, objectTemplate);
-            Assert.That(TemplateDictionary.GetTemplatesFor(typeof(string).BaseType), Is.EquivalentTo(new List<DataTemplate> { objectTemplate }));
+            Assert.That(TemplateDictionary.GetTemplatesFor(typeof(string).BaseType).Select(dti => dti.DataTemplate), Is.EquivalentTo(new List<DataTemplate> { objectTemplate }));
         }
         class A { }
         class B : A { }
@@ -63,9 +63,9 @@ namespace ListCalculatorControl.Tests {
             DataTemplate objectTemplate = new DataTemplate();
             DataTemplate bTemplate = new DataTemplate();
             DataTemplate dTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
-            TemplateDictionary.AddTemplateFor<B>(bTemplate);
-            TemplateDictionary.AddTemplateFor<D>(dTemplate);
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
+            TemplateDictionary.AddTemplateFor<B>("b", bTemplate);
+            TemplateDictionary.AddTemplateFor<D>("d", dTemplate);
             AssertTemplates<D>(dTemplate, bTemplate, objectTemplate);
             AssertTemplates<C>(bTemplate, objectTemplate);
             AssertTemplates<B>(bTemplate, objectTemplate);
@@ -80,10 +80,10 @@ namespace ListCalculatorControl.Tests {
             DataTemplate aTemplate = new DataTemplate();
             DataTemplate cTemplate = new DataTemplate();
             DataTemplate b2Template = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
-            TemplateDictionary.AddTemplateFor<A>(aTemplate);
-            TemplateDictionary.AddTemplateFor<C>(cTemplate);
-            TemplateDictionary.AddTemplateFor<B2>(b2Template);
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
+            TemplateDictionary.AddTemplateFor<A>("a", aTemplate);
+            TemplateDictionary.AddTemplateFor<C>("c", cTemplate);
+            TemplateDictionary.AddTemplateFor<B2>("b2", b2Template);
             AssertTemplates<object>(objectTemplate);
             AssertTemplates<A>(aTemplate, objectTemplate);
             AssertTemplates<B>(aTemplate, objectTemplate);
@@ -94,20 +94,30 @@ namespace ListCalculatorControl.Tests {
         [Test]
         public void InvalidateTemplatesTest() {
             DataTemplate objectTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<object>(objectTemplate);
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
             AssertTemplates<D>(objectTemplate);
             DataTemplate aTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<A>(aTemplate);
+            TemplateDictionary.AddTemplateFor<A>("a", aTemplate);
             AssertTemplates<D>(aTemplate, objectTemplate);
             DataTemplate dTemplate = new DataTemplate();
-            TemplateDictionary.AddTemplateFor<D>(dTemplate);
+            TemplateDictionary.AddTemplateFor<D>("d", dTemplate);
             AssertTemplates<D>(dTemplate, aTemplate, objectTemplate);
         }
         void AssertTemplates<T>(params DataTemplate[] expectedTemplates) {
-            List<DataTemplate> actualTemplates = TemplateDictionary.GetTemplatesFor<T>();
+            List<DataTemplateInfo> actualTemplates = TemplateDictionary.GetTemplatesFor<T>();
             Assert.That(actualTemplates.Count, Is.EqualTo(expectedTemplates.Length));
             for(int i = 0; i < actualTemplates.Count; i++)
-                Assert.That(actualTemplates[i], Is.EqualTo(expectedTemplates[i]));
+                Assert.That(actualTemplates[i].DataTemplate, Is.EqualTo(expectedTemplates[i]));
+        }
+        [Test]
+        public void TemplateNamesTest() {
+            DataTemplate objectTemplate = new DataTemplate();
+            DataTemplate stringTemplate = new DataTemplate();
+            TemplateDictionary.AddTemplateFor<object>("o", objectTemplate);
+            TemplateDictionary.AddTemplateFor<string>("s", stringTemplate);
+            List<DataTemplateInfo> templates = TemplateDictionary.GetTemplatesFor<string>();
+            Assert.That(templates[0].Name, Is.EqualTo("s"));
+            Assert.That(templates[1].Name, Is.EqualTo("o"));
         }
     }
 
