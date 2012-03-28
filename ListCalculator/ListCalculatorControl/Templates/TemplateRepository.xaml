@@ -6,5 +6,6 @@
         <ResourceDictionary Source="PlainTextTemplate.xaml" />
         <ResourceDictionary Source="CalculationErrorTemplate.xaml" />
         <ResourceDictionary Source="ChartTemplates.xaml" />
+        <ResourceDictionary Source="HierarchicalDataTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

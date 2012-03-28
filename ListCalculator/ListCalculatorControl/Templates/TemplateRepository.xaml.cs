@@ -19,5 +19,6 @@ namespace ListCalculatorControl.Templates {
         public static DataTemplate PieChartTemplate { get { return Instance["pieChartTemplate"] as DataTemplate; } }
         public static DataTemplate ScatterChartTemplate { get { return Instance["scatterChartTemplate"] as DataTemplate; } }
         #endregion
+        public static DataTemplate ListDictTreeViewTemplate { get { return Instance["listDictTreeViewTemplate"] as DataTemplate; } }
     }
 }

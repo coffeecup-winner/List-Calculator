@@ -64,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Templates\ListDictTreeView.xaml.cs">
+      <DependentUpon>ListDictTreeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tests\ControlTests.cs" />
     <Compile Include="Tests\Helpers.cs" />
     <Compile Include="LazyCacheBase.cs" />
@@ -90,6 +93,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Templates\ChartTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Templates\HierarchicalDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Templates\ListDictTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

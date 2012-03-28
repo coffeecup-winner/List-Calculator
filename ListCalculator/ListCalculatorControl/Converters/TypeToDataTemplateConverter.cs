@@ -4,6 +4,8 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using CalculatorKernel.Library;
+using PythonList = IronPython.Runtime.List;
+using IronPython.Runtime;
 
 namespace ListCalculatorControl {
     class TypeToDataTemplateConverter : IValueConverter {
@@ -25,6 +27,8 @@ namespace ListCalculatorControl {
             templateDictionary.AddTemplateFor<PieChartSeries>(TemplateRepository.PieChartTemplate);
             templateDictionary.AddTemplateFor<ScatterChartSeries>(TemplateRepository.ScatterChartTemplate);
             #endregion
+            templateDictionary.AddTemplateFor<PythonList>(TemplateRepository.ListDictTreeViewTemplate);
+            templateDictionary.AddTemplateFor<PythonDictionary>(TemplateRepository.ListDictTreeViewTemplate);
         }
         #region IValueConverter Members
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
